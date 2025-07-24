@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Task } from './task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { BoardsService } from 'src/boards/boards.service';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Injectable()
 export class TasksService {
@@ -33,4 +34,13 @@ export class TasksService {
     if (!task) throw new NotFoundException('Task not found');
     return this.taskRepo.remove(task);
   }
+
+  async update(id: number, updateDto: UpdateTaskDto) {
+  const task = await this.taskRepo.findOneBy({ id });
+  if (!task) throw new NotFoundException('Task not found');
+  Object.assign(task, updateDto);
+  return this.taskRepo.save(task);
+  }
 }
+
+
