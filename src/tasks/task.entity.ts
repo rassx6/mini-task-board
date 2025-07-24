@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, DeleteDateColumn } from 'typeorm';
 import { Board } from 'src/boards/board.entity';
+import { CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Task {
@@ -14,4 +15,10 @@ export class Task {
 
   @ManyToOne(() => Board, (board) => board.tasks, { onDelete: 'CASCADE' })
   board: Board;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }
